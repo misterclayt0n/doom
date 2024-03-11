@@ -1,7 +1,6 @@
 ;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
 
-;; Place your private configuration here! Remember, you do not need to run 'doom
-;; sync' after modifying this file!
+;; Place your private configuration here! Remember, you do not need to run 'doom sync' after modifying this file!
 
 
 ;; Some functionality uses this to identify you, e.g. GPG configuration, email
@@ -21,8 +20,8 @@
 ;; See 'C-h v doom-font' for documentation and more examples of what they
 ;; accept. For example:
 ;;
-;;(setq doom-font (font-spec :family "Fira Code" :size 12 :weight 'semi-light)
-;;      doom-variable-pitch-font (font-spec :family "Fira Sans" :size 13))
+(setq doom-font (font-spec :family "Fira Code SemiBold" :size 12)
+      doom-variable-pitch-font (font-spec :family "Fira Code SemiBold" :size 13))
 ;;
 ;; If you or Emacs can't find your font, use 'M-x describe-font' to look them
 ;; up, `M-x eval-region' to execute elisp code, and 'M-x doom/reload-font' to
@@ -51,6 +50,7 @@
 ;;
 ;; The exceptions to this rule:
 ;;
+
 ;;   - Setting file/directory variables (like `org-directory')
 ;;   - Setting variables which explicitly tell you to set them before their
 ;;     package is loaded (see 'C-h v VARIABLE' to look up their documentation).
@@ -75,12 +75,14 @@
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
 
+;; (setq doom-font (font-spec :family "Consolas-13"))
+
 ;; blink the cursor
 (blink-cursor-mode t)
 
 ;; rainbow mode
-(use-package rainbow-mode
-  :hook (emacs-lisp-mode text-mode lisp-mode))
+;; (use-package rainbow-mode
+;;   :hook (emacs-lisp-mode text-mode lisp-mode))
 
 ;; block cursor >>>
 (setq evil-insert-state-cursor '(box))
@@ -193,3 +195,47 @@
 
 ;; tailwind
 ;; (use-package! lsp-tailwindcss)
+
+(setq lsp-clients-typescript-server (executable-find "tsserver"))
+
+(setq confirm-kill-emacs nil)
+
+(use-package doom-modeline
+  :custom
+  (doom-modeline-icon t)
+  (doom-modeline-minor-modes t)
+  :config
+  (doom-modeline-mode))
+
+(use-package minions
+  :custom
+  (minions-mode-line-lighter "⚙")
+  (minions-mode-line-delimiters nil)
+  (minions-direct '(org-tree-slide-mode overwrite-mode flycheck-mode projectile-mode))
+  :config
+  (minions-mode))
+
+(use-package obsidian
+  :ensure t
+  :demand t
+  :config
+  (obsidian-specify-path "~/the berserk")
+  (global-obsidian-mode t)
+  :custom
+  ;; Create missing files in inbox? - when clicking on a wiki link
+  ;; t: in inbox, nil: next to the file with the link
+  ;; default: t
+                                        ;(obsidian-wiki-link-create-file-in-inbox nil)
+  ;; The directory for daily notes (file name is YYYY-MM-DD.md)
+  (obsidian-daily-notes-directory "journal")
+  ;; Directory of note templates, unset (nil) by default
+  (obsidian-templates-directory "templates")
+  ;; Daily Note template name - requires a template directory. Default: Daily Note Template.md
+  (setq obsidian-daily-note-template "daily_note_template.md")
+  :bind (:map obsidian-mode-map
+              ;; Replace C-c C-o with Obsidian.el's implementation. It's ok to use another key binding.
+              ("C-c C-o" . obsidian-follow-link-at-point)
+              ;; Jump to backlinks
+              ("C-c C-b" . obsidian-backlink-jump)
+              ;; If you prefer you can use `obsidian-insert-link'
+              ("C-c C-l" . obsidian-insert-wikilink)))

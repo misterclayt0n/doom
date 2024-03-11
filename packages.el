@@ -58,3 +58,7 @@
 (package! evil-snipe :disable t)
 ;; (package! twittering-mode :disable)
 (package! lsp-tailwindcss :recipe (:host github :repo "merrickluo/lsp-tailwindcss"))
+;; (package! doom-modeline-mode :disable)
+(package! minions)
+(package! obsidian)
+(package! obsidian-theme)
