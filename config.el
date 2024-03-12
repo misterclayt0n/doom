@@ -196,25 +196,13 @@
 ;; tailwind
 ;; (use-package! lsp-tailwindcss)
 
+;; execute tsserver for the love of christ
 (setq lsp-clients-typescript-server (executable-find "tsserver"))
 
+;; fuck that emacs confirmation stuff
 (setq confirm-kill-emacs nil)
 
-(use-package doom-modeline
-  :custom
-  (doom-modeline-icon t)
-  (doom-modeline-minor-modes t)
-  :config
-  (doom-modeline-mode))
-
-(use-package minions
-  :custom
-  (minions-mode-line-lighter "⚙")
-  (minions-mode-line-delimiters nil)
-  (minions-direct '(org-tree-slide-mode overwrite-mode flycheck-mode projectile-mode))
-  :config
-  (minions-mode))
-
+;; obsidian stuff
 (use-package obsidian
   :ensure t
   :demand t
@@ -222,10 +210,6 @@
   (obsidian-specify-path "~/the berserk")
   (global-obsidian-mode t)
   :custom
-  ;; Create missing files in inbox? - when clicking on a wiki link
-  ;; t: in inbox, nil: next to the file with the link
-  ;; default: t
-                                        ;(obsidian-wiki-link-create-file-in-inbox nil)
   ;; The directory for daily notes (file name is YYYY-MM-DD.md)
   (obsidian-daily-notes-directory "journal")
   ;; Directory of note templates, unset (nil) by default
@@ -239,3 +223,14 @@
               ("C-c C-b" . obsidian-backlink-jump)
               ;; If you prefer you can use `obsidian-insert-link'
               ("C-c C-l" . obsidian-insert-wikilink)))
+
+
+;; minions mode
+(add-hook 'emacs-startup-hook (lambda () (minions-mode 1)))
+
+;; obsidian mappings ma man
+(map! :leader
+      :desc "obsidian today"   "ot" #'obsidian-daily-note
+      :desc "obsidian search"   "of" #'obsidian-jump
+      :desc "obsidian goto"   "od" #'obsidian-follow-link-at-point
+      :desc "obsidian link"   "ol" #'obsidian-insert-link)
