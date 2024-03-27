@@ -56,9 +56,13 @@
 (package! twilight-theme)
 (package! move-text)
 (package! evil-snipe :disable t)
-;; (package! twittering-mode :disable)
 (package! lsp-tailwindcss :recipe (:host github :repo "merrickluo/lsp-tailwindcss"))
-;; (package! doom-modeline-mode :disable)
 (package! minions)
 (package! obsidian)
 (package! obsidian-theme)
+
+(package! copilot
+  :recipe (:host github :repo "copilot-emacs/copilot.el" :files ("*.el" "dist")))
+
+(package! prisma-mode
+  :recipe (:host github :repo "davidarenas/prisma-mode"))

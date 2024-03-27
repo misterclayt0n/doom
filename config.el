@@ -20,8 +20,8 @@
 ;; See 'C-h v doom-font' for documentation and more examples of what they
 ;; accept. For example:
 ;;
-(setq doom-font (font-spec :family "Fira Code SemiBold" :size 12)
-      doom-variable-pitch-font (font-spec :family "Fira Code SemiBold" :size 13))
+;; (setq doom-font (font-spec :family "Fira Code SemiBold" :size 12)
+;;       doom-variable-pitch-font (font-spec :family "Fira Code SemiBold" :size 13))
 ;;
 ;; If you or Emacs can't find your font, use 'M-x describe-font' to look them
 ;; up, `M-x eval-region' to execute elisp code, and 'M-x doom/reload-font' to
@@ -32,6 +32,7 @@
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
 (setq doom-theme 'gruber-darker)
+;; (setq doom-theme 'doom-rose-pine)
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
@@ -85,7 +86,7 @@
 ;;   :hook (emacs-lisp-mode text-mode lisp-mode))
 
 ;; block cursor >>>
-(setq evil-insert-state-cursor '(box))
+;; (setq evil-insert-state-cursor '(box))
 
 ;; shell command
 (map! :leader ("e" #'shell-command))
@@ -107,9 +108,6 @@
 
 ;; remove sections on dashboard
 (remove-hook '+doom-dashboard-functions #'doom-dashboard-widget-shortmenu)
-
-;; obvious
-(setq doom-font (font-spec :size 18))
 
 ;; relative line numbers
 (setq display-line-numbers-type 'relative)
@@ -233,4 +231,43 @@
       :desc "obsidian today"   "ot" #'obsidian-daily-note
       :desc "obsidian search"   "of" #'obsidian-jump
       :desc "obsidian goto"   "od" #'obsidian-follow-link-at-point
-      :desc "obsidian link"   "ol" #'obsidian-insert-link)
+      :desc "obsidian link"   "ol" #'obsidian-insert-link
+      :desc "obsidian tags"   "os" #'obsidian-tag-find)
+
+;; Enable whitespace mode globally
+;; (global-whitespace-mode +1)
+
+;; Configure whitespace-mode to show dots for spaces
+;; (setq whitespace-style '(face spaces tabs newline space-mark tab-mark newline-mark))
+
+;; (setq whitespace-display-mappings
+;; '((space-mark 32 [183] [46])
+;; (tab-mark 9 [187 9] [92 9])
+;; (newline-mark 10 [182 10] [92 10])))
+
+;; You might need to adjust the characters/symbols used for display according to your preferences
+
+;; (setq whitespace-style (remq 'newline whitespace-style))
+;; (setq whitespace-style (remq 'newline-mark whitespace-style))
+
+;; accept completion from copilot and fallback to company
+;; (use-package! copilot
+;;   :hook (prog-mode . copilot-mode)
+;;   :bind (:map copilot-completion-map
+;;               ("<tab>" . 'copilot-accept-completion)
+;;               ("TAB" . 'copilot-accept-completion)
+;;               ("C-TAB" . 'copilot-accept-completion-by-word)
+;;               ("C-<tab>" . 'copilot-accept-completion-by-word)))
+
+;; (setq copilot-indent-offset-warning-disable t)
+
+(setq doom-font (font-spec :family "Fira Code" :size 18 :weight 'medium))
+
+;; prisma mode
+(use-package! prisma-mode)
+(setq prisma-format-on-save t)
+
+;; turn off whitespace mode
+(advice-add #'doom-highlight-non-default-indentation-h :override #'ignore)
+
+(map! :v "$" #'end-of-line)
